@@ -1,6 +1,6 @@
-name: 'Enov8 - CMDB Update'
-description: 'Update Enov8 CMDB resources (Environment Instance, System Component, System Interface, MicroService) via GitHub Actions.'
-author: 'hpashok24'
+name: 'Enov8 - Deployment Version Update'
+description: 'Update the deployed version for an Environment Instance or Microservice in Enov8 via GitHub Actions.'
+author: 'Enov8 Ltd'
 
 branding:
   icon: 'layers'
@@ -8,7 +8,7 @@ branding:
 
 inputs:
   resourceType:
-    description: 'Supported values: Environment Instance | System Component | System Interface | MicroService'
+    description: 'Supported values: Environment Instance | MicroService'
     required: true
 
   resourceName:
@@ -38,11 +38,6 @@ inputs:
   enov8_url:
     description: 'Base URL of your Enov8 instance (Example: https://yourcompany.enov8.cloud/ecosystem)'
     required: true
-
-  insecure_skip_tls_verify:
-    description: 'Set to true to skip TLS verification (not recommended)'
-    required: false
-    default: 'false'
 
 runs:
   using: 'node24'
