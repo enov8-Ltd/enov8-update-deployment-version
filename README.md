@@ -1,64 +1,60 @@
-# 📦 Enov8 – CMDB Update GitHub Action
+# 📦 Enov8 – Deployment Version Update GitHub Action
 
-Update Enov8 CMDB resources, environments, and microservices directly from your CI/CD pipelines using GitHub Actions.
-
----
-
-# 🚀 Overview
-
-This GitHub Action enables you to:
-
-- 🔄 Update resource versions
-- 🚦 Update environment or component status
-- 🎯 Target specific Enov8 resources by name
-- ⚡ Automate Enov8 updates as part of deployment pipelines
-- 🧩 Update MicroServices linked to System Instances
+Update the deployed version for an Environment Instance or Microservice in Enov8 directly using GitHub Actions.
 
 ---
 
-# 🧩 Supported Resource Types
+## 🚀 Overview
+
+This GitHub Action automatically updates deployed version information in Enov8 after a successful deployment.
+
+Use this action to:
+
+- 🔄 Update the deployed version for an Environment Instance
+- 🧩 Update the deployed version for a Microservice linked to a System Instance
+
+---
+
+## 🧩 Supported Resource Types
 
 - `Environment Instance`
-- `System Component`
-- `System Interface`
 - `MicroService`
 
 ---
 
-# 📥 Inputs
+## 📥 Inputs
 
 | Name | Required | Description |
-|------|------|------|
-| `enov8_url` | ✅ | Base Enov8 URL (without `/api`) |
+|------|----------|-------------|
+| `enov8_url` | ✅ | Base Enov8 URL, without `/api` |
 | `app_id` | ✅ | Enov8 App ID |
 | `app_key` | ✅ | Enov8 App Key |
-| `resourceType` | ✅ | Resource type |
+| `resourceType` | ✅ | Resource type to update. Supported values: `Environment Instance` or `MicroService` |
 | `resourceName` | ✅ | Exact Enov8 resource name |
-| `version` | ❌ | Version value to update |
-| `status` | ❌ | Status value to update |
-| `systemInstance` | ❌ | Required only for `MicroService` updates |
+| `version` | ✅ | Deployed version value to update |
+| `systemInstance` | ❌ | Required only when updating a `MicroService` |
 
 ---
 
-# ⚙️ Setup Guide
+## ⚙️ Setup Guide
 
-## Step 1 — Add GitHub Secrets
+### Step 1 — Add GitHub Secrets
 
 Go to your repository:
 
 **Settings → Secrets and variables → Actions**
 
-Click **New repository secret** and add:
+Click **New environment secret** and add:
 
 | Secret Name | Example Value |
-|------|------|
+|------------|---------------|
 | `ENOV8_BASE_URL` | `https://yourcompany.enov8.cloud/ecosystem` |
 | `ENOV8_APP_ID` | `your_app_id` |
 | `ENOV8_APP_KEY` | `your_app_key` |
 
 ---
 
-# 🔐 Using GitHub Environment Secrets (Recommended)
+## 🔐 Using GitHub Environment Secrets
 
 If your repository uses GitHub Environments, specify the environment in your workflow:
 
@@ -68,117 +64,100 @@ environment: dev
 
 This ensures GitHub uses the correct environment-specific secrets.
 
----
-
-# ⚠️ Important
-
-Without specifying the environment, GitHub may use repository-level secrets instead of environment secrets.
+> **Important:** Without specifying the environment, GitHub may use repository-level secrets instead of environment-specific secrets.
 
 ---
 
-# 📂 Step 2 — Create Workflow
+## 🚀 Step 2 — Add Action to Workflow
 
-Create a file:
-
-```bash
-.github/workflows/enov8.yml
-```
-
----
-
-# 🚀 Step 3 — Add Action to Workflow
-
-## Example — Environment Instance Update
+### Example — Update Environment Instance Version
 
 ```yaml
-name: Enov8 CMDB Update
+name: Enov8 Deployment Version Update
 
 on:
   workflow_dispatch:
 
 jobs:
-  update-cmdb:
+  update-version:
     runs-on: ubuntu-latest
 
     environment: dev
 
     steps:
-      - name: Enov8 - CMDB Update
-        uses: hpashok24/enov8-cmdb-update@v2.0.8
+      - name: Enov8 - Update Environment Instance Version
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.0.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
           app_key: ${{ secrets.ENOV8_APP_KEY }}
-
           resourceType: "Environment Instance"
           resourceName: "GDW (DEV)"
-
           version: "18.0.12"
-          status: "UnplannedOutage"
 ```
 
 ---
 
-# 🧩 Example — MicroService Update
+### Example — Update Microservice Version
 
 ```yaml
-name: Enov8 MicroService Update
+name: Enov8 Microservice Version Update
 
 on:
   workflow_dispatch:
 
 jobs:
-  update-microservice:
+  update-microservice-version:
     runs-on: ubuntu-latest
 
     environment: dev
 
     steps:
-      - name: Enov8 - MicroService Update
-        uses: hpashok24/enov8-cmdb-update@v2.2.0
+      - name: Enov8 - Update Microservice Version
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.0.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
           app_key: ${{ secrets.ENOV8_APP_KEY }}
-
           resourceType: "MicroService"
           resourceName: "Web Portal"
-
           systemInstance: "GDW (DEV)"
-
           version: "4.1"
 ```
 
 ---
 
-# ▶️ Step 4 — Run Workflow
+## ▶️ Step 3 — Run Workflow
 
-1. Go to the **Actions** tab  
-2. Select your workflow  
+1. Go to the **Actions** tab
+2. Select your workflow
 3. Click **Run workflow**
 
 ---
 
-# 🔍 Example Output
+## 🔍 Example Output
 
 ```text
-📡 PUT https://.../api/SystemInstance
-📦 Payload ...
-📨 Response ...
-✅ Enov8 CMDB updated successfully
+📡 Updating Enov8 resource version
+📦 Resource Type: Environment Instance
+📦 Resource Name: GDW (DEV)
+🏷️ Version: 18.0.12
+✅ Enov8 deployed version updated successfully
 ```
 
 ---
 
-# ⚠️ Important Notes
+## ⚠️ Important Notes
 
-## ✅ Correct URL Format
+### ✅ Correct URL Format
+
+Use the base Enov8 application URL:
 
 ```text
 https://<your-enov8-instance>/ecosystem
 ```
 
-## ❌ Do NOT include
+### ❌ Do Not Include
 
 ```text
 /api
@@ -186,7 +165,9 @@ https://<your-enov8-instance>/ecosystem
 
 ---
 
-# ⚠️ Resource Name Must Match Exactly
+### ⚠️ Resource Name Must Match Exactly
+
+The resource name must match the Enov8 record name exactly.
 
 ```text
 GDW (DEV)   ✅
@@ -195,58 +176,32 @@ gdw dev     ❌
 
 ---
 
-# ⚠️ Status Values
+### ⚠️ Microservice Updates
 
-Status values must already exist in your Enov8 configuration.
-
-Examples:
-
-```text
-InOperation
-PlannedOutage
-UnplannedOutage
-```
-
----
-
-# 💡 Usage Examples
-
-## Update only version
+When updating a Microservice version, `systemInstance` must be provided so the action can identify the correct Microservice linked to the correct Environment Instance.
 
 ```yaml
-version: "18.0.12"
+resourceType: "MicroService"
+resourceName: "Web Portal"
+systemInstance: "GDW (DEV)"
+version: "4.1"
 ```
 
 ---
 
-## Update only status
 
-```yaml
-status: "UnplannedOutage"
-```
+## 🐛 Troubleshooting
 
----
+### ❌ No update applied
 
-## Update version and status
-
-```yaml
-version: "18.0.12"
-status: "UnplannedOutage"
-```
+- Verify the resource name spelling
+- Confirm the version value is provided
+- Check whether the version is already up to date
+- Confirm the correct GitHub environment secrets are being used
 
 ---
 
-# 🐛 Troubleshooting
-
-## ❌ No update applied
-
-- Verify resource name spelling
-- Check if values are already up-to-date
-- Confirm correct GitHub environment secrets are being used
-
----
-
-## ❌ Authentication failed
+### ❌ Authentication failed
 
 - Verify `ENOV8_APP_ID`
 - Verify `ENOV8_APP_KEY`
@@ -254,18 +209,18 @@ status: "UnplannedOutage"
 
 ---
 
-## ❌ Invalid resource type
+### ❌ Invalid resource type
 
 Supported values:
 
-- `Environment Instance`
-- `System Component`
-- `System Interface`
-- `MicroService`
+```text
+Environment Instance
+MicroService
+```
 
 ---
 
-## ❌ MicroService update failed
+### ❌ Microservice update failed
 
 Ensure `systemInstance` is provided:
 
@@ -275,16 +230,9 @@ systemInstance: "GDW (DEV)"
 
 ---
 
-# 🚀 Common Use Cases
+## 📩 Support
 
-- CI/CD deployment tracking
-- Environment status automation
-- Automated version management
-- DevOps CMDB integration
-- MicroService deployment tracking
+If you experience any issues or need assistance, please contact:
 
----
-
-# 📄 License
-
-MIT License
+```text
+support@enov8.com
