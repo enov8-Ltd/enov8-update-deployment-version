@@ -1,5 +1,5 @@
 name: 'Enov8 - Deployment Version Update'
-description: 'Update (or create) Enov8 CMDB resources (Environment Instance, System Component, System Interface, MicroService) version via GitHub Actions.'
+description: 'Update (or create) Enov8 CMDB resources (Environment Instance, System Component, System Interface, MicroService) version'
 author: 'Enov8 Ltd'
 
 branding:
