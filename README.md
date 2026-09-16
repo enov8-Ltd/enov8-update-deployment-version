@@ -73,9 +73,6 @@ Create a file:
 .github/workflows/enov8.yml
 ```
 
-### Step 3 — Add Action to Workflow
-
-There is no tagged release yet, so workflows should reference `@main`.
 
 ## 💡 Usage Examples
 
@@ -94,7 +91,7 @@ jobs:
 
     steps:
       - name: Enov8 - Deployment Version Update
-        uses: enov8-Ltd/enov8-update-deployment-version@main
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.1.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
@@ -119,7 +116,7 @@ jobs:
 
     steps:
       - name: Enov8 - MicroService Update
-        uses: enov8-Ltd/enov8-update-deployment-version@main
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.1.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
@@ -134,7 +131,7 @@ jobs:
 
 ```yaml
       - name: Enov8 - Deployment Version Update
-        uses: enov8-Ltd/enov8-update-deployment-version@main
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.1.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
@@ -154,7 +151,7 @@ jobs:
 
 ```yaml
       - name: Enov8 - Deployment Version Update
-        uses: enov8-Ltd/enov8-update-deployment-version@main
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.1.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
@@ -179,7 +176,7 @@ jobs:
 
 ```yaml
       - name: Enov8 - Deployment Version Update
-        uses: enov8-Ltd/enov8-update-deployment-version@main
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.1.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
@@ -205,7 +202,7 @@ If `systemInstance` already exists, `metadata` can be `{}` — nothing below the
 
 ```yaml
       - name: Enov8 - Deployment Version Update
-        uses: enov8-Ltd/enov8-update-deployment-version@main
+        uses: enov8-Ltd/enov8-update-deployment-version@v1.1.0
         with:
           enov8_url: ${{ secrets.ENOV8_BASE_URL }}
           app_id: ${{ secrets.ENOV8_APP_ID }}
@@ -337,10 +334,7 @@ systemInstance: "GDW (DEV)"
 - MicroService deployment tracking
 - Auto-provisioning environment instances on first deploy
 
-## 🆘 Support
+## 📩 Support
 
 For assistance, contact support@enov8.com.
 
-## 📄 License
-
-[MIT](LICENSE)
