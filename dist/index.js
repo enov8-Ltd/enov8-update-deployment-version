@@ -104,7 +104,7 @@ async function resolveAssignedToId(baseUrl, headers) {
 }
 
 // ✅ Creates the System if it doesn't already exist (cascade from a System Instance create)
-async function resolveOrCreateSystem(baseUrl, headers, systemName, businessUnitName, status, assignedToId, organisationId, systemType, systemCore) {
+async function resolveOrCreateSystem(baseUrl, headers, systemName, businessUnitName, status, assignedToId, organisationId, systemType, systemCore, resourceId) {
   const existingId = await tryResolveByName(baseUrl, headers, 'System', 'Resource Name', systemName);
 
   if (existingId) {
@@ -117,6 +117,7 @@ async function resolveOrCreateSystem(baseUrl, headers, systemName, businessUnitN
 
   const payload = JSON.stringify({
     'Resource Name': systemName,
+    'Resource ID': resourceId,
     'Status': status,
     'Business Unit': businessUnitId,
     'Assigned To': assignedToId,
@@ -175,7 +176,7 @@ async function resolveOrCreateSystemInstance(baseUrl, headers, instanceName, met
   if (metadata['System']) {
     payloadObj['System'] = await resolveOrCreateSystem(
       baseUrl, headers, metadata['System'], metadata['Business Unit'], status, assignedToId, organisationId,
-      metadata['Type'], metadata['Core']
+      metadata['Type'], metadata['Core'],  metadata['Resource ID']
     );
   }
 
@@ -369,7 +370,7 @@ async function run() {
       if (metadata['System']) {
         createPayloadObj['System'] = await resolveOrCreateSystem(
           baseUrl, headers, metadata['System'], metadata['Business Unit'], status, assignedToId, organisationId,
-          metadata['Type'], metadata['Core']
+          metadata['Type'], metadata['Core'], metadata['Resource ID']
         );
       }
     }
